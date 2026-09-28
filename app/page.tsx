@@ -1,4 +1,6 @@
 import { supabase } from "@/lib/supabase";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Home() {
   const { data: products, error } = await supabase
@@ -11,16 +13,24 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-1">PawCart</h1>
-      <p className="text-gray-600 mb-8">Happy Finds for Happy Paws.</p>
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold">PawCart</h1>
+        <p className="text-muted-foreground">Happy Finds for Happy Paws.</p>
+      </header>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {products?.map((product) => (
-          <div key={product.id} className="border rounded-lg p-4">
-            <h2 className="font-semibold">{product.name}</h2>
-            <p className="text-sm text-gray-500">{product.category}</p>
-            <p className="mt-2 font-bold">₱{product.price}</p>
-          </div>
+          <Card key={product.id}>
+            <CardHeader>
+              <CardTitle className="text-base">{product.name}</CardTitle>
+              <Badge variant="secondary" className="w-fit">
+                {product.category}
+              </Badge>
+            </CardHeader>
+            <CardContent>
+              <p className="font-bold">₱{product.price}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </main>
